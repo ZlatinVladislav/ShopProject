@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20220417054519_InitialMigration2")]
-    partial class InitialMigration2
+    [Migration("20220417123740_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,8 +54,8 @@ namespace Infrastructure.Migrations
                     b.Property<int?>("DeliveryMethodId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("OrderDate")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("OrderDate")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("PaymentIntentId")
                         .HasColumnType("TEXT");

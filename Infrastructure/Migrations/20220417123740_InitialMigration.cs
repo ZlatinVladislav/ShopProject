@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -58,7 +57,7 @@ namespace Infrastructure.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     BuyerEmail = table.Column<string>(type: "TEXT", nullable: true),
-                    OrderDate = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    OrderDate = table.Column<long>(type: "INTEGER", nullable: false),
                     ShipToAddress_FirstName = table.Column<string>(type: "TEXT", nullable: true),
                     ShipToAddress_LastName = table.Column<string>(type: "TEXT", nullable: true),
                     ShipToAddress_Street = table.Column<string>(type: "TEXT", nullable: true),
