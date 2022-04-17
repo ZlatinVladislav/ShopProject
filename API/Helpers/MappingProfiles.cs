@@ -23,7 +23,7 @@ namespace API.Helpers
 
             CreateMap<Order, OrderToReturnDto>()
                 .ForMember(d => d.DeliveryMethod, o => o.MapFrom(s => s.DeliveryMethod.ShortName))
-                .ForMember(d => d.ShipingPrice, o => o.MapFrom(s => s.DeliveryMethod.Price));
+                .ForMember(d => d.ShippingPrice, o => o.MapFrom(s => s.DeliveryMethod.Price));
 
 
             CreateMap<OrderItem, OrderItemDto>()

@@ -12,14 +12,14 @@ export interface IOrder {
   orderDate: string;
   shipToAddress: IAddress;
   deliveryMethod: string;
-  shipingPrice: number;
-  orderItems: OrderItem[];
+  shippingPrice: number;
+  orderItems: IOrderItem[];
   subTotal: number;
   total: number;
   status: string;
 }
 
-export interface OrderItem {
+export interface IOrderItem {
   productId: number;
   productName: string;
   pictureUrl: string;

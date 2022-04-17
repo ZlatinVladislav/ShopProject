@@ -12,6 +12,7 @@ import { CdkStepperModule } from '@angular/cdk/stepper';
 import { StepperComponent } from './components/stepper/stepper.component';
 import { BasketSummaryComponent } from './components/basket-summary/basket-summary.component';
 import { RouterModule } from '@angular/router';
+import { OrderDetailedComponent } from '../orders/order-detailed/order-detailed.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { RouterModule } from '@angular/router';
     TextInputComponent,
     StepperComponent,
     BasketSummaryComponent,
+    OrderDetailedComponent,
   ],
   imports: [
     CommonModule,
@@ -44,6 +46,7 @@ import { RouterModule } from '@angular/router';
     CdkStepperModule,
     StepperComponent,
     BasketSummaryComponent,
+    OrderDetailedComponent,
   ],
 })
 export class SharedModule {}
