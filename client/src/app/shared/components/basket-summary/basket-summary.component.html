@@ -31,11 +31,11 @@
                 class="img-fluid"
                 style="max-height: 50px"
               />
-              <div class="ml-3 d-inline-block align-middler">
+              <div class="ms-3 d-inline-block align-middler">
                 <h5 class="mb-0">
                   <a
                     routerLink="/shop/{{ item.id || item.productId }}"
-                    class="text-dark"
+                    class="text-dark text-decoration-none"
                     >{{ item.productName }}</a
                   >
                 </h5>
@@ -59,7 +59,7 @@
             >
               <i
                 *ngIf="isBasket"
-                class="fa fa-minus-circle text-warning mr-2"
+                class="fa fa-minus-circle text-warning me-2"
                 style="cursor: pointer; font-size: 2em"
                 (click)="decrementItemQuantity(item)"
               ></i>

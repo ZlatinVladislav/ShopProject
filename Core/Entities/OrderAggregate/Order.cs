@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,9 @@ namespace Core.Entities.OrderAggregate
         }
 
         public string? BuyerEmail { get; set; }
+        //public DateTime OrderDate { get; set; } = DateTime.UtcNow;
         public DateTimeOffset OrderDate { get; set; } = DateTimeOffset.Now;
+        [Required]
         public Address ShipToAddress { get; set; }
         public DeliveryMethod DeliveryMethod { get; set; }
         public IReadOnlyList<OrderItem> OrderItems { get; set; }
