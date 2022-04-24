@@ -1,6 +1,5 @@
-﻿using System.Linq;
-using Core.Entities;
-using Core.Specifications;
+﻿using Core.Entities.Base;
+using Core.Interfaces.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data

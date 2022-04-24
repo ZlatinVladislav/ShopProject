@@ -1,11 +1,7 @@
-﻿using Core.Entities;
+﻿using Core.Entities.Base;
 using Core.Interfaces;
-using System;
+using Core.Interfaces.Base;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Data
 {

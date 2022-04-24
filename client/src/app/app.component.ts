@@ -1,9 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from './account/account.service';
 import { BasketService } from './basket/basket.service';
-import { IPagination } from './shared/models/pagination';
-import { IProduct } from './shared/models/product';
 
 @Component({
   selector: 'app-root',
@@ -11,19 +8,16 @@ import { IProduct } from './shared/models/product';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'client';
+  private title = 'client';
 
-  constructor(
-    private basketService: BasketService,
-    private accountService: AccountService
-  ) {}
+  public constructor(private basketService: BasketService, private accountService: AccountService) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.loadBasket();
     this.loadCurrentUser();
   }
 
-  loadCurrentUser() {
+  public loadCurrentUser() {
     const token = localStorage.getItem('token');
 
     this.accountService.loadCurrentUser(token).subscribe(
@@ -32,11 +26,11 @@ export class AppComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      }
+      },
     );
   }
 
-  loadBasket() {
+  public loadBasket() {
     const basketId = localStorage.getItem('basket_id');
 
     if (basketId) {
@@ -46,7 +40,7 @@ export class AppComponent implements OnInit {
         },
         (error) => {
           console.log(error);
-        }
+        },
       );
     }
   }

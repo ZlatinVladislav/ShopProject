@@ -18,12 +18,15 @@
 
 	<ItemGroup>
 		<Content Include="Content\**" CopyToPublishDirectory="PreserveNewest" />
+		<Compile Remove="NewFolder\**" />
+		<Content Remove="NewFolder\**" />
+		<EmbeddedResource Remove="NewFolder\**" />
+		<None Remove="NewFolder\**" />
 		<ProjectReference Include="..\Core\Core.csproj" />
 		<ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="NewFolder\" />
 		<Folder Include="Content\" />
 		<Folder Include="wwwroot\" />
 	</ItemGroup>

@@ -1,9 +1,9 @@
-﻿using API.Errors;
+﻿using API.Controllers.Base;
+using API.Errors;
 using Core.Entities;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Stripe;
 using System.IO;
 using System.Threading.Tasks;

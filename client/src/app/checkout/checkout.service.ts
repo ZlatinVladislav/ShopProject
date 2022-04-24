@@ -9,19 +9,19 @@ import { IOrderToCreate } from '../shared/models/order';
   providedIn: 'root',
 })
 export class CheckoutService {
-  baseUrl = environment.apiUrl;
+  public baseUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  public constructor(private http: HttpClient) {}
 
-  createOrder(order: IOrderToCreate) {
+  public createOrder(order: IOrderToCreate): any {
     return this.http.post(this.baseUrl + 'orders', order);
   }
 
-  getDeliveryMethods() {
+  public getDeliveryMethods(): any {
     return this.http.get(this.baseUrl + 'orders/deliveryMethods').pipe(
       map((dm: IDeliveryMethod[]) => {
         return dm.sort((a, b) => b.price - a.price);
-      })
+      }),
     );
   }
 }

@@ -4,11 +4,6 @@ using Core.Interfaces;
 using Core.Specification;
 using Microsoft.Extensions.Configuration;
 using Stripe;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Order = Core.Entities.OrderAggregate.Order;
 using Product = Core.Entities.Product;
 

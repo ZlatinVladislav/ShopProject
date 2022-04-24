@@ -1,9 +1,8 @@
-﻿using System.Linq;
-using System.Reflection;
-using Core.Entities;
+﻿using Core.Entities;
 using Core.Entities.OrderAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System.Reflection;
 
 namespace Infrastructure.Data
 {
@@ -31,7 +30,7 @@ namespace Infrastructure.Data
                 {
                     var properties = entityType.ClrType.GetProperties().Where(p => p.PropertyType == typeof(decimal));
 
-                    var dateTimeProprieties = entityType.ClrType.GetProperties().Where(p=>p.PropertyType == typeof(DateTimeOffset));
+                    var dateTimeProprieties = entityType.ClrType.GetProperties().Where(p => p.PropertyType == typeof(DateTimeOffset));
 
                     foreach (var property in properties)
                     {

@@ -1,14 +1,12 @@
-﻿using API.Dtos;
+﻿using API.Controllers.Base;
+using API.Dtos;
 using API.Errors;
-using API.Extenions;
 using AutoMapper;
 using Core.Entities.OrderAggregate;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace API.Controllers

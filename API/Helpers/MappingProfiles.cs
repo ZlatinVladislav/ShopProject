@@ -1,7 +1,7 @@
 ﻿using API.Dtos;
+using API.Helpers.Resolver;
 using AutoMapper;
 using Core.Entities;
-using Core.Entities.Identity;
 using Core.Entities.OrderAggregate;
 
 namespace API.Helpers

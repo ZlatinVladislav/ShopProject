@@ -1,6 +1,8 @@
-using StackExchange.Redis;
+using API.Extensions;
+using API.Extensions.Config;
 using Core.Entities.Identity;
 using Microsoft.Extensions.FileProviders;
+using StackExchange.Redis;
 using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);

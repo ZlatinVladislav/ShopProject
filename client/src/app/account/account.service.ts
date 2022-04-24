@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, map, of, ReplaySubject } from 'rxjs';
+import { map, Observable, of, ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IAddress } from '../shared/models/address';
 import { IUser } from '../shared/models/user';
@@ -10,13 +10,13 @@ import { IUser } from '../shared/models/user';
   providedIn: 'root',
 })
 export class AccountService {
-  baseUrl = environment.apiUrl;
-  private currentUserSource = new ReplaySubject<IUser>(1);
-  currentUser$ = this.currentUserSource.asObservable();
+  public baseUrl = environment.apiUrl;
+  public currentUserSource = new ReplaySubject<IUser>(1);
+  public currentUser$ = this.currentUserSource.asObservable();
 
-  constructor(private http: HttpClient, private readonly router: Router) {}
+  public constructor(private http: HttpClient, private readonly router: Router) {}
 
-  loadCurrentUser(token: string) {
+  public loadCurrentUser(token: string): Observable<void | null> {
     if (token === null) {
       this.currentUserSource.next(null);
       return of(null);
@@ -32,11 +32,11 @@ export class AccountService {
 
           this.currentUserSource.next(user);
         }
-      })
+      }),
     );
   }
 
-  login(values: any) {
+  public login(values: any): Observable<void> {
     return this.http.post(this.baseUrl + 'account/login', values).pipe(
       map((user: IUser) => {
         if (user) {
@@ -44,11 +44,11 @@ export class AccountService {
 
           this.currentUserSource.next(user);
         }
-      })
+      }),
     );
   }
 
-  register(values: any) {
+  public register(values: any): Observable<void> {
     return this.http.post(this.baseUrl + 'account/register', values).pipe(
       map((user: IUser) => {
         if (user) {
@@ -56,26 +56,26 @@ export class AccountService {
 
           this.currentUserSource.next(user);
         }
-      })
+      }),
     );
   }
 
-  logout() {
+  public logout(): void {
     localStorage.removeItem('token');
     this.currentUserSource.next(null);
 
     this.router.navigateByUrl('/');
   }
 
-  checkEmailExists(email: string) {
-    return this.http.get(this.baseUrl + 'account/emailexists?email=' + email);
+  public checkEmailExists(email: string): Observable<boolean> {
+    return this.http.get<boolean>(this.baseUrl + 'account/emailexists?email=' + email);
   }
 
-  getUserAddress() {
+  public getUserAddress(): Observable<IAddress> {
     return this.http.get<IAddress>(this.baseUrl + 'account/address');
   }
 
-  updateUserAddress(address: IAddress) {
+  public updateUserAddress(address: IAddress): Observable<IAddress> {
     return this.http.put<IAddress>(this.baseUrl + 'account/address', address);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { BasketService } from 'src/app/basket/basket.service';
 import { IDeliveryMethod } from 'src/app/shared/models/deliveryMerhod';
@@ -10,24 +10,21 @@ import { CheckoutService } from '../checkout.service';
   styleUrls: ['./checkout-delivery.component.scss'],
 })
 export class CheckoutDeliveryComponent implements OnChanges {
-  @Input() checkoutForm: FormGroup;
-  deliveryMethods: IDeliveryMethod[];
+  @Input() public checkoutForm: FormGroup;
+  public deliveryMethods: IDeliveryMethod[];
 
-  constructor(
-    private checkoutService: CheckoutService,
-    private basketService: BasketService
-  ) {}
+  public constructor(private checkoutService: CheckoutService, private basketService: BasketService) {}
 
-  ngOnChanges(): void {
+  public ngOnChanges(): void {
     this.checkoutService.getDeliveryMethods().subscribe(
       (dm: IDeliveryMethod[]) => {
         this.deliveryMethods = dm;
       },
-      (error) => console.log(error)
+      (error) => console.log(error),
     );
   }
 
-  shippingPrice(deliveryMethod: IDeliveryMethod) {
+  public shippingPrice(deliveryMethod: IDeliveryMethod): void {
     this.basketService.setShippingPrice(deliveryMethod);
   }
 }

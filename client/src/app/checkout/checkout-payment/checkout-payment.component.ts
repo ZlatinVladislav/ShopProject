@@ -1,21 +1,13 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Input,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { BasketService } from 'src/app/basket/basket.service';
 import { IBasket } from 'src/app/shared/models/basket';
-import { IOrder, IOrderToCreate } from 'src/app/shared/models/order';
+import { IOrderToCreate } from 'src/app/shared/models/order';
 import { CheckoutService } from '../checkout.service';
 
-declare var Stripe;
+declare let Stripe;
 
 @Component({
   selector: 'app-checkout-payment',
@@ -23,32 +15,32 @@ declare var Stripe;
   styleUrls: ['./checkout-payment.component.scss'],
 })
 export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
-  @Input() checkoutForm: FormGroup;
-  @ViewChild('cardNumber', { static: true }) cardNumberElement: ElementRef;
-  @ViewChild('cardExpiry', { static: true }) cardExpiryElement: ElementRef;
-  @ViewChild('cardCvc', { static: true }) cardCvcElement: ElementRef;
-  stripe: any;
-  cardNumber: any;
-  cardExpiry: any;
-  cardCvc: any;
-  error: any;
-  cardErrors: any;
-  cardHandler = this.onChange.bind(this);
-  loading = false;
-  cardNumberValid = false;
-  cardExpiryValid = false;
-  cardCvcValid = false;
+  @Input() public checkoutForm: FormGroup;
+  @ViewChild('cardNumber', { static: true }) public cardNumberElement: ElementRef;
+  @ViewChild('cardExpiry', { static: true }) public cardExpiryElement: ElementRef;
+  @ViewChild('cardCvc', { static: true }) public cardCvcElement: ElementRef;
+  public cardErrors: any;
+  public cardHandler = this.onChange.bind(this);
+  public loading = false;
+  public cardNumberValid = false;
+  public cardExpiryValid = false;
+  public cardCvcValid = false;
+  private stripe: any;
+  private cardNumber: any;
+  private cardExpiry: any;
+  private cardCvc: any;
+  private error: any;
 
-  constructor(
+  public constructor(
     private basketService: BasketService,
     private checkoutService: CheckoutService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
   ) {}
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.stripe = Stripe(
-      'pk_test_51KqMJ7ApS2CQ3bzRrNFfMkz3qn9lLGprvOUVRObMfkBCB2cbhjmLcUO5lMGHzNIMvUs9RxNCNwBoIbhCM021IAeV00WWWxq9VF'
+      'pk_test_51KqMJ7ApS2CQ3bzRrNFfMkz3qn9lLGprvOUVRObMfkBCB2cbhjmLcUO5lMGHzNIMvUs9RxNCNwBoIbhCM021IAeV00WWWxq9VF',
     );
     const elements = this.stripe.elements();
 
@@ -65,13 +57,13 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
     this.cardCvc.addEventListener('change', this.cardHandler);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.cardNumber.destroy();
     this.cardExpiry.destroy();
     this.cardCvc.destroy();
   }
 
-  onChange(event) {
+  public onChange(event): void {
     if (event.error) {
       this.cardErrors = event.error.message;
     } else {
@@ -91,7 +83,7 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  async submitOrder() {
+  public async submitOrder(): Promise<void> {
     this.loading = true;
     const basket = this.basketService.getCurrentBasketValue();
 
@@ -114,7 +106,7 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  private async confirmPaymentWithStripe(basket: IBasket) {
+  private async confirmPaymentWithStripe(basket: IBasket): Promise<any> {
     return this.stripe.confirmCardPayment(basket.clientSecret, {
       payment_method: {
         card: this.cardNumber,
@@ -125,7 +117,7 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  private async createOrder(basket: IBasket) {
+  private async createOrder(basket: IBasket): Promise<any> {
     const orderToCreate = this.getOrderToCreate(basket);
     return this.checkoutService.createOrder(orderToCreate).toPromise();
   }
@@ -133,9 +125,7 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
   private getOrderToCreate(basket: IBasket): IOrderToCreate {
     return {
       basketId: basket.id.toString(),
-      deliveryMethodId: +this.checkoutForm
-        .get('deliveryForm')
-        .get('deliveryMethod').value,
+      deliveryMethodId: +this.checkoutForm.get('deliveryForm').get('deliveryMethod').value,
       shipToAddress: this.checkoutForm.get('addressForm').value,
     };
   }

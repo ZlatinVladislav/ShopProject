@@ -2,11 +2,6 @@
 using Core.Entities.OrderAggregate;
 using Core.Interfaces;
 using Core.Specification;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
@@ -47,7 +42,7 @@ namespace Infrastructure.Services
             var spec = new OrderByPaymentIntentIdSpecification(basket.PaymentIntentId);
             var existingOrder = await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
 
-            if(existingOrder != null)
+            if (existingOrder != null)
             {
                 _unitOfWork.Repository<Order>().Delete(existingOrder);
                 await _paymentService.CreateOrUpdatePaymentIntent(basket.PaymentIntentId);

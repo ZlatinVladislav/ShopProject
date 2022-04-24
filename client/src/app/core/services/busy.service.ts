@@ -5,11 +5,11 @@ import { NgxSpinnerService } from 'ngx-spinner';
   providedIn: 'root',
 })
 export class BusyService {
-  busyRequestCount = 0;
+  public busyRequestCount = 0;
 
-  constructor(private spinnerService: NgxSpinnerService) {}
+  public constructor(private spinnerService: NgxSpinnerService) {}
 
-  busy() {
+  public busy(): void {
     this.busyRequestCount++;
 
     this.spinnerService.show(undefined, {
@@ -19,7 +19,7 @@ export class BusyService {
     });
   }
 
-  idle() {
+  public idle(): void {
     this.busyRequestCount--;
 
     if (this.busyRequestCount <= 0) {

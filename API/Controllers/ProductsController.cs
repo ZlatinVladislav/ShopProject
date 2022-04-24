@@ -1,17 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Infrastructure.Data;
-using Core.Entities;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Core.Interfaces;
-using Core.Specifications;
+﻿using API.Controllers.Base;
 using API.Dtos;
-using AutoMapper;
 using API.Errors;
+using AutoMapper;
+using Core.Entities;
+using Core.Interfaces.Base;
+using Core.Specifications;
 using Microsoft.AspNetCore.Http;
-using API.Helpers;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace API.Controllers
 {

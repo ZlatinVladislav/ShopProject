@@ -1,5 +1,5 @@
 ﻿global using API.Extenions;
-global using API.Extensions;
+global using API.Extenions.Identity;
 global using API.Helpers;
 global using API.Middleware;
 global using Infrastructure.Data;
