@@ -1,12 +1,14 @@
 using StackExchange.Redis;
 using Core.Entities.Identity;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
 builder.Services.AddControllers();
 builder.Services.AddDbContext<StoreContext>(x =>
-    x.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+    x.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddSingleton<IConnectionMultiplexer>(c =>
 {
@@ -15,7 +17,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(c =>
 });
 builder.Services.AddApplicationServices();
 builder.Services.AppIdentityServices(builder.Configuration);
-builder.Services.AddDbContext<AppIdentityDbContext>(x => { x.UseSqlite(builder.Configuration.GetConnectionString("IdentityConnection")); });
+builder.Services.AddDbContext<AppIdentityDbContext>(x => { x.UseNpgsql(builder.Configuration.GetConnectionString("IdentityConnection")); });
 builder.Services.AddSwaggerDocumentation();
 builder.Services.AddCors(opt =>
 {
@@ -38,6 +40,11 @@ app.UseStatusCodePagesWithReExecute("/errors/{0}");
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Content")),
+    RequestPath = "/content"
+});
 
 app.UseCors("CorsPolicy");
 
@@ -46,6 +53,7 @@ app.UseAuthorization();
 
 
 app.MapControllers();
+app.MapFallbackToController("Index", "Fallback");
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
