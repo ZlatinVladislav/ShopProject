@@ -1,18 +1,18 @@
 [
-  {
-    "Id": 1,
-    "Name": "Boards"
-  },
-  {
-    "Id": 2,
-    "Name": "Hats"
-  },
-  {
-    "Id": 3,
-    "Name": "Boots"
-  },
-  {
-    "Id": 4,
-    "Name": "Gloves"
-  }
+    {
+        "Id": 1,
+        "Name": "NoteBook"
+    },
+    {
+        "Id": 2,
+        "Name": "Watch"
+    },
+    {
+        "Id": 3,
+        "Name": "Mobile"
+    },
+    {
+        "Id": 4,
+        "Name": "Accessories"
+    }
 ]

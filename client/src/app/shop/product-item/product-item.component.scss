@@ -3,6 +3,14 @@
   height: 40px;
 }
 
+.image {
+  height: 50%;
+}
+
+img {
+  max-height: 100%;
+}
+
 .image :hover {
   opacity: 1;
 
@@ -10,6 +18,10 @@
     transform: none;
     opacity: 1;
   }
+}
+
+.ard-body {
+  height: 50%;
 }
 
 .hover-overlay {

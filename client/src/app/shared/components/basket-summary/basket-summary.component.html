@@ -33,15 +33,11 @@
               />
               <div class="ms-3 d-inline-block align-middler">
                 <h5 class="mb-0">
-                  <a
-                    routerLink="/shop/{{ item.id || item.productId }}"
-                    class="text-dark text-decoration-none"
-                    >{{ item.productName }}</a
-                  >
+                  <a routerLink="/shop/{{ item.id || item.productId }}" class="text-dark text-decoration-none">{{
+                    item.productName
+                  }}</a>
                 </h5>
-                <span
-                  *ngIf="item.type"
-                  class="text-muted font-weight-normal font-italic d-block"
+                <span *ngIf="item.type" class="text-muted font-weight-normal font-italic d-block"
                   >Type: {{ item.type }}</span
                 >
               </div>
@@ -53,24 +49,19 @@
           </td>
 
           <td class="align-middle">
-            <div
-              class="d-flex align-items-center"
-              [class.justify-content-center]="!isBasket"
-            >
+            <div class="d-flex align-items-center" [class.justify-content-center]="!isBasket">
               <i
                 *ngIf="isBasket"
-                class="fa fa-minus-circle text-warning me-2"
+                class="fa fa-minus-circle me-2 blue"
                 style="cursor: pointer; font-size: 2em"
                 (click)="decrementItemQuantity(item)"
               ></i>
 
-              <span class="font-weight-bold" style="font-size: 1.5em">{{
-                item.quantity
-              }}</span>
+              <span class="font-weight-bold" style="font-size: 1.5em">{{ item.quantity }}</span>
 
               <i
                 *ngIf="isBasket"
-                class="fa fa-plus-circle text-warning mx-2"
+                class="fa fa-plus-circle blue mx-2"
                 style="cursor: pointer; font-size: 2em"
                 (click)="incrementItemQuantity(item)"
               ></i>
