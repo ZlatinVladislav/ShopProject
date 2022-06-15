@@ -2,13 +2,18 @@ using API.Extensions;
 using API.Extensions.Config;
 using Core.Entities.Identity;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.IO;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Web.DependencyInjection;
 using StackExchange.Redis;
 using System.IO;
+using System.Threading.Tasks;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
 builder.Services.AddControllers();
+
 builder.Services.AddDbContext<StoreContext>(x =>
     x.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 

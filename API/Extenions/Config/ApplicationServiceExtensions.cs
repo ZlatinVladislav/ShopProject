@@ -13,6 +13,8 @@ namespace API.Extensions.Config
         {
             services.AddSingleton<IResponseCacheService, ResponseCacheService>();
             services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();

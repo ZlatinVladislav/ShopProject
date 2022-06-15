@@ -1,10 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, of } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IBrand } from '../shared/models/brand';
 import { IPagination, Pagination } from '../shared/models/pagination';
 import { IProduct } from '../shared/models/product';
+import { IProductCreate } from '../shared/models/productCreate';
 import { IType } from '../shared/models/productType';
 import { ShopParams } from '../shared/models/shopParams';
 
@@ -12,26 +13,24 @@ import { ShopParams } from '../shared/models/shopParams';
   providedIn: 'root',
 })
 export class ShopService {
-  baseUrl = environment.apiUrl;
-  products: IProduct[] = [];
-  brands: IBrand[] = [];
-  types: IType[] = [];
-  pagination = new Pagination();
-  shopParams = new ShopParams();
-  productCache = new Map();
+  public baseUrl = environment.apiUrl;
+  public products: IProduct[] = [];
+  public brands: IBrand[] = [];
+  public types: IType[] = [];
+  public pagination = new Pagination();
+  public shopParams = new ShopParams();
+  public productCache = new Map();
 
-  constructor(private http: HttpClient) {}
+  public constructor(private http: HttpClient) {}
 
-  getProducts(useCache: boolean) {
+  public getProducts(useCache: boolean): Observable<Pagination> {
     if (useCache === false) {
       this.productCache = new Map();
     }
 
     if (this.productCache.size > 0 && useCache === true) {
       if (this.productCache.has(Object.values(this.shopParams).join('-'))) {
-        this.pagination.data = this.productCache.get(
-          Object.values(this.shopParams).join('-')
-        );
+        this.pagination.data = this.productCache.get(Object.values(this.shopParams).join('-'));
         return of(this.pagination);
       }
     }
@@ -61,25 +60,34 @@ export class ShopService {
       })
       .pipe(
         map((response) => {
-          this.productCache.set(
-            Object.values(this.shopParams).join('-'),
-            response.body.data
-          );
+          this.productCache.set(Object.values(this.shopParams).join('-'), response.body.data);
           this.pagination = response.body;
           return this.pagination;
-        })
+        }),
       );
   }
 
-  setShopParams(params: ShopParams) {
+  public uploadProduct(form: IProductCreate): Observable<any> {
+    const uploadData = new FormData();
+
+    for (const i in form) {
+      if (form[i] instanceof Blob) {
+        uploadData.append(i, form[i], form[i].name ? form[i].name : '');
+      } else uploadData.append(i, form[i]);
+    }
+
+    return this.http.post(this.baseUrl + 'products/create', uploadData);
+  }
+
+  public setShopParams(params: ShopParams): void {
     this.shopParams = params;
   }
 
-  getShopParams() {
+  public getShopParams(): ShopParams {
     return this.shopParams;
   }
 
-  getProduct(id: number) {
+  public getProduct(id: number): Observable<IProduct> {
     let product: IProduct;
     this.productCache.forEach((products: IProduct[]) => {
       product = products.find((p) => p.id === id);
@@ -92,7 +100,7 @@ export class ShopService {
     return this.http.get<IProduct>(this.baseUrl + 'products/' + id);
   }
 
-  getBrands() {
+  public getBrands(): Observable<IBrand[]> {
     if (this.brands.length > 0) {
       return of(this.brands);
     }
@@ -101,11 +109,11 @@ export class ShopService {
       map((response) => {
         this.brands = response;
         return response;
-      })
+      }),
     );
   }
 
-  getTypes() {
+  public getTypes(): Observable<IType[]> {
     if (this.types.length > 0) {
       return of(this.types);
     }
@@ -114,7 +122,7 @@ export class ShopService {
       map((response) => {
         this.types = response;
         return response;
-      })
+      }),
     );
   }
 }

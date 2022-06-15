@@ -6,15 +6,15 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class OrdersService {
-  baseUrl = environment.apiUrl;
+  public baseUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  public constructor(private http: HttpClient) {}
 
-  getOrdersForUser() {
+  public getOrdersForUser() {
     return this.http.get(this.baseUrl + 'orders');
   }
 
-  getOrderDetailed(id: number) {
+  public getOrderDetailed(id: number) {
     return this.http.get(this.baseUrl + 'orders/' + id);
   }
 }

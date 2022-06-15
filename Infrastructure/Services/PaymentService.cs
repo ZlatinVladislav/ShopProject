@@ -2,7 +2,10 @@
 using Core.Entities.OrderAggregate;
 using Core.Interfaces;
 using Core.Specification;
+using Core.Struct;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Stripe;
 using Order = Core.Entities.OrderAggregate.Order;
 using Product = Core.Entities.Product;
@@ -14,15 +17,45 @@ namespace Infrastructure.Services
         private readonly IBasketRepository _basketRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _config;
+        private readonly ILogger<PaymentService> _logger;
 
         public PaymentService(
             IBasketRepository basketRepository,
             IUnitOfWork unitOfWork,
+            ILogger<PaymentService> logger,
             IConfiguration config)
         {
             _basketRepository = basketRepository;
             _unitOfWork = unitOfWork;
             _config = config;
+            _logger = logger;
+        }
+
+        public async Task CheckEventStripeStatus(Event stripeEvent)
+        {
+            PaymentIntent intent;
+            Order order;
+
+            switch (stripeEvent.Type)
+            {
+                case PaymentIntentEventStruct.Success:
+                    intent = (PaymentIntent)stripeEvent.Data.Object;
+                    _logger.LogInformation("Payment succeeded", intent.Id);
+
+                    order = await UpdateOrderPaymentSecceeded(intent.Id);
+                    _logger.LogInformation("Order updated to payment received:", order.Id);
+
+                    break;
+
+                case PaymentIntentEventStruct.Failed:
+                    intent = (PaymentIntent)stripeEvent.Data.Object;
+                    _logger.LogInformation("Payment failed", intent.Id);
+
+                    order = await UpdateOrderPaymentFailed(intent.Id);
+                    _logger.LogInformation("Order failed to payment received:", order.Id);
+
+                    break;
+            }
         }
 
         public async Task<CustomerBasket> CreateOrUpdatePaymentIntent(string basketId)
@@ -89,7 +122,7 @@ namespace Infrastructure.Services
             return basket;
         }
 
-        public async Task<Core.Entities.OrderAggregate.Order> UpdateOrderPaymentFailed(string paymentIntentId)
+        private async Task<Core.Entities.OrderAggregate.Order> UpdateOrderPaymentFailed(string paymentIntentId)
         {
             var spec = new OrderByPaymentIntentIdSpecification(paymentIntentId);
             var order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
@@ -101,7 +134,7 @@ namespace Infrastructure.Services
             return order;
         }
 
-        public async Task<Core.Entities.OrderAggregate.Order> UpdateOrderPaymentSecceeded(string paymentIntentId)
+        private async Task<Core.Entities.OrderAggregate.Order> UpdateOrderPaymentSecceeded(string paymentIntentId)
         {
             var spec = new OrderByPaymentIntentIdSpecification(paymentIntentId);
             var order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);

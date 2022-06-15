@@ -12,6 +12,8 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="SixLabors.ImageSharp" Version="2.1.1" />
+		<PackageReference Include="SixLabors.ImageSharp.Web" Version="2.0.0" />
 		<PackageReference Include="SQLite" Version="3.13.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
 	</ItemGroup>

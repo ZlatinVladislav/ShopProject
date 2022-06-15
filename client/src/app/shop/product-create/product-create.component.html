@@ -1,0 +1,37 @@
+<div class="d-flex justify-content-center mt-5">
+  <div class="col-3">
+    <form [formGroup]="productForm" (submit)="submit()">
+      <app-text-input [label]="'Name'" formControlName="name" [type]="'text'"></app-text-input>
+
+      <app-text-input [label]="'Description'" formControlName="description" [type]="'text'"></app-text-input>
+
+      <app-text-input [label]="'Price'" formControlName="price" [type]="'text'"></app-text-input>
+
+      <div class="my-2">
+        <input (change)="getFile($event)" placeholder="Picture" type="file" required />
+        <span *ngIf="productForm.controls.pictureForm.touched && productForm.controls.pictureForm.invalid"
+          >Please upload file</span
+        >
+      </div>
+
+      <!-- <app-text-input [label]="'Product Type'" formControlName="productTypeId" [type]="'text'"></app-text-input> -->
+      <select formControlName="productTypeId" name="productTypeId" id="productTypeId" class="form-select mb-4">
+        <option value="" selected disabled>Please Type</option>
+        <option *ngFor="let type of types" [value]="type.id">
+          {{ type.name }}
+        </option>
+      </select>
+
+      <select formControlName="productBrandId" name="productBrandId" id="productBrandId" class="form-select mb-4">
+        <option value="" selected disabled>Please Brand</option>
+        <option *ngFor="let brand of brands" [value]="brand.id">
+          {{ brand.name }}
+        </option>
+      </select>
+
+      <div class="form-group btn-group">
+        <button class="" type="submit" [disabled]="!productForm.valid">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>

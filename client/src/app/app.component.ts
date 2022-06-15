@@ -8,8 +8,6 @@ import { BasketService } from './basket/basket.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  private title = 'client';
-
   public constructor(private basketService: BasketService, private accountService: AccountService) {}
 
   public ngOnInit(): void {
@@ -17,7 +15,7 @@ export class AppComponent implements OnInit {
     this.loadCurrentUser();
   }
 
-  public loadCurrentUser() {
+  public loadCurrentUser(): void {
     const token = localStorage.getItem('token');
 
     this.accountService.loadCurrentUser(token).subscribe(
@@ -30,7 +28,7 @@ export class AppComponent implements OnInit {
     );
   }
 
-  public loadBasket() {
+  public loadBasket(): void {
     const basketId = localStorage.getItem('basket_id');
 
     if (basketId) {
