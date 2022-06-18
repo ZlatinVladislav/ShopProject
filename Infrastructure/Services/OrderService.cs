@@ -1,7 +1,10 @@
-﻿using Core.Entities;
+﻿using API.Extenions.Exception;
+using Core.Entities;
 using Core.Entities.OrderAggregate;
+using Core.Enums;
 using Core.Interfaces;
 using Core.Specification;
+using Infrastructure.Exception;
 
 namespace Infrastructure.Services
 {
@@ -56,7 +59,7 @@ namespace Infrastructure.Services
 
             if (result <= 0)
             {
-                return null;
+                throw new BadRequestException(EntityEnum.Order.ToString());
             }
 
             return order;
@@ -71,14 +74,18 @@ namespace Infrastructure.Services
         {
             var spec = new OrdersWithItemsNadOrderingSpecification(id, buyerEmail);
 
-            return await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
+            var result = await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
+
+            return result != null ? result:throw new NotFoundException(EntityEnum.Order.ToString());
         }
 
         public async Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail)
         {
             var spec = new OrdersWithItemsNadOrderingSpecification(buyerEmail);
 
-            return await _unitOfWork.Repository<Order>().ListAsync(spec);
+            var result = await _unitOfWork.Repository<Order>().ListAsync(spec);
+
+            return result != null ? result : throw new NotFoundException(EntityEnum.Order.ToString());
         }
     }
 }

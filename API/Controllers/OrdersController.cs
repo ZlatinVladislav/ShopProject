@@ -32,11 +32,6 @@ namespace API.Controllers
 
             var order = await _orderService.CreateOrderAsync(email, orderDto.DeliveryMethodId, orderDto.BasketId, address);
 
-            if (order == null)
-            {
-                return BadRequest(new ApiResponse(400, "Error while creating order"));
-            }
-
             return Ok(order);
         }
 
@@ -55,14 +50,7 @@ namespace API.Controllers
         {
             var email = HttpContext.User.RetrieveEmailFromPrincipal();
 
-            var order = await _orderService.GetOrderByIdAsync(id, email);
-
-            if (order == null)
-            {
-                return NotFound(new ApiResponse(404));
-            }
-
-            return Ok(_mapper.Map<Order, OrderToReturnDto>(order));
+            return Ok(_mapper.Map<Order, OrderToReturnDto>(await _orderService.GetOrderByIdAsync(id, email)));
         }
 
         [HttpGet("deliveryMethods")]

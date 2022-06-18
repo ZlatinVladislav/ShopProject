@@ -27,14 +27,7 @@ namespace API.Controllers
         [HttpPost("{basketId}")]
         public async Task<ActionResult<CustomerBasket>> CreateOrUpdatePaymentIntent(string basketID)
         {
-            var basket = await _paymentService.CreateOrUpdatePaymentIntent(basketID);
-
-            if (basket == null)
-            {
-                return BadRequest(new ApiResponse(400, "Error with basket"));
-            }
-
-            return basket;
+            return await _paymentService.CreateOrUpdatePaymentIntent(basketID);
         }
 
         [HttpPost("webhook")]

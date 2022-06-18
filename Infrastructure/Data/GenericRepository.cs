@@ -57,5 +57,10 @@ namespace Infrastructure.Data
         {
             _context.Set<T>().Remove(entity);
         }
+
+        public async Task<bool> SaveAsync()
+        {
+            return await _context.SaveChangesAsync(true) == 0 ? false : true;
+        }
     }
 }

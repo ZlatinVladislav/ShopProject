@@ -1,8 +1,10 @@
 ﻿using Core.Entities;
 using Core.Entities.OrderAggregate;
+using Core.Enums;
 using Core.Interfaces;
 using Core.Specification;
 using Core.Struct;
+using Infrastructure.Exception;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -119,7 +121,7 @@ namespace Infrastructure.Services
 
             await _basketRepository.UpdateBasketAsync(basket);
 
-            return basket;
+            return basket != null ? basket : throw new BadRequestException(EntityEnum.Basket.ToString());
         }
 
         private async Task<Core.Entities.OrderAggregate.Order> UpdateOrderPaymentFailed(string paymentIntentId)

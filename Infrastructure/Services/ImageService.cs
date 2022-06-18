@@ -1,5 +1,6 @@
 ﻿using Core.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 
@@ -7,6 +8,15 @@ namespace Infrastructure.Services
 {
     public class ImageService : IImageService
     {
+        private readonly IConfiguration _config;
+
+        public ImageService(
+            IConfiguration config
+          )
+        {
+            _config = config;
+        }
+
         public async Task<string> UploadImage(IFormFile file)
         {
             string fileName = string.Empty;
@@ -14,7 +24,7 @@ namespace Infrastructure.Services
             if (file.Length > 0)
             {
                 fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
-                path = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "content\\images\\products"));
+                path = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), _config["ImagesPath"]));
                 string fullPath = Path.Combine(path, fileName);
 
                 using (var image = Image.Load(file.OpenReadStream()))

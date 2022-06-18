@@ -1,4 +1,6 @@
 ﻿using API.Errors;
+using API.Extenions.Exception;
+using Infrastructure.Exception;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using System.Net;
@@ -24,6 +26,36 @@ namespace API.Middleware
             try
             {
                 await _next(context);
+            }
+            catch (BadRequestException ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                context.Response.ContentType = "application/json";
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+
+                var response = _env.IsDevelopment()
+                    ? new ApiException((int)HttpStatusCode.BadRequest,"Error during process " + ex.Message,
+                    ex.StackTrace.ToString())
+                    : new ApiException((int)HttpStatusCode.BadRequest);
+
+                var json = JsonSerializer.Serialize(response);
+
+                await context.Response.WriteAsync(json);
+            }
+            catch (NotFoundException ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                context.Response.ContentType = "application/json";
+                context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+
+                var response = _env.IsDevelopment()
+                    ? new ApiException((int)HttpStatusCode.NotFound, ex.Message + " not found!",
+                    ex.StackTrace.ToString())
+                    : new ApiException((int)HttpStatusCode.NotFound);
+
+                var json = JsonSerializer.Serialize(response);
+
+                await context.Response.WriteAsync(json);
             }
             catch (Exception ex)
             {
