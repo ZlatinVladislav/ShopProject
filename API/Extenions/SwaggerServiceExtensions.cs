@@ -1,4 +1,5 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.OpenApi.Models;
 
 namespace API.Extensions
 {
@@ -33,6 +34,7 @@ namespace API.Extensions
                 };
 
                 c.AddSecurityRequirement(securityRequirement);
+                c.CustomOperationIds(d => d.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor ? controllerActionDescriptor.MethodInfo.Name : d.ActionDescriptor.AttributeRouteInfo?.Name);
             });
 
             return services;

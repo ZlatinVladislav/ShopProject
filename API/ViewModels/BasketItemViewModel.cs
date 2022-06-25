@@ -2,7 +2,7 @@
 
 namespace API.Dtos
 {
-    public class BasketItemDto
+    public class BasketItemViewModel
     {
         [Required]
         public int Id { get; set; }

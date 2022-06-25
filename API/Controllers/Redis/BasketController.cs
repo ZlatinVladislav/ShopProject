@@ -20,17 +20,22 @@ namespace API.Controllers.Redis
         }
 
         [HttpGet]
-        public async Task<ActionResult<CustomerBasket>> GetBasketById(string id)
+        public async Task<ActionResult<CustomerBasketViewModel>> GetBasketById(string id)
         {
-            var basket = await _basketRepository.GetBasketAsync(id);
+            var basket = _mapper.Map<CustomerBasketViewModel>(await _basketRepository.GetBasketAsync(id));
 
-            return Ok(basket ?? new CustomerBasket(id));
+            if (basket == null)
+            {
+                basket = _mapper.Map<CustomerBasketViewModel>(new CustomerBasket(id));
+            }
+
+            return Ok(basket);
         }
 
         [HttpPost]
-        public async Task<ActionResult<CustomerBasket>> UpdateBasket(CustomerBasketDto basket)
+        public async Task<ActionResult<CustomerBasketViewModel>> UpdateBasket(CustomerBasketViewModel basket)
         {
-            var customerBasket = _mapper.Map<CustomerBasketDto, CustomerBasket>(basket);
+            var customerBasket = _mapper.Map<CustomerBasketViewModel, CustomerBasket>(basket);
 
             var updatedBasket = await _basketRepository.UpdateBasketAsync(customerBasket);
 

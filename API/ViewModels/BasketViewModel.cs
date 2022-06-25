@@ -1,14 +1,12 @@
 ﻿using Core.Entities;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
-namespace API.Dtos
+namespace API.ViewModels
 {
-    public class CustomerBasketDto
+    public class BasketViewModel
     {
-        [Required]
         public string Id { get; set; }
-        public List<BasketItemDto> Items { get; set; }
+        public List<BasketItem> Items { get; set; } = new List<BasketItem>();
         public int? DeliveryMethodId { get; set; }
         public string ClientSecret { get; set; }
         public string PaymentIntentId { get; set; }

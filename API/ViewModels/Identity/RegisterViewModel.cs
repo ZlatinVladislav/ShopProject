@@ -2,7 +2,7 @@
 
 namespace API.Dtos.Identity
 {
-    public class RegisterDto
+    public class RegisterViewModel
     {
         [Required]
         public string DisplayName { get; set; }

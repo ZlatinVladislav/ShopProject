@@ -18,28 +18,18 @@ export class AppComponent implements OnInit {
   public loadCurrentUser(): void {
     const token = localStorage.getItem('token');
 
-    this.accountService.loadCurrentUser(token).subscribe(
-      () => {
-        console.log('User is loaded');
-      },
-      (error) => {
-        console.log(error);
-      },
-    );
+    this.accountService.loadCurrentUser(token).subscribe(() => {
+      console.log('User is loaded');
+    });
   }
 
   public loadBasket(): void {
     const basketId = localStorage.getItem('basket_id');
 
     if (basketId) {
-      this.basketService.getBasket(basketId).subscribe(
-        () => {
-          console.log('Basket is initialized');
-        },
-        (error) => {
-          console.log(error);
-        },
-      );
+      this.basketService.getBasket(basketId).subscribe(() => {
+        console.log('Basket is initialized');
+      });
     }
   }
 }

@@ -15,15 +15,9 @@ export class CheckoutAddressComponent {
   public constructor(private accountService: AccountService, private toastr: ToastrService) {}
 
   public saveUserAddress(): void {
-    this.accountService.updateUserAddress(this.checkoutForm.get('addressForm').value).subscribe(
-      (address: IAddress) => {
-        this.toastr.success('Address saved');
-        this.checkoutForm.get('addressForm').reset(address);
-      },
-      (error) => {
-        this.toastr.error(error.message);
-        console.log(error);
-      },
-    );
+    this.accountService.updateUserAddress(this.checkoutForm.get('addressForm').value).subscribe((address: IAddress) => {
+      this.toastr.success('Address saved');
+      this.checkoutForm.get('addressForm').reset(address);
+    });
   }
 }

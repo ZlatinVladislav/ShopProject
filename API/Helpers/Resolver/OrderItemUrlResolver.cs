@@ -4,7 +4,7 @@ using Core.Entities.OrderAggregate;
 
 namespace API.Helpers.Resolver
 {
-    public class OrderItemUrlResolver : IValueResolver<OrderItem, OrderItemDto, string>
+    public class OrderItemUrlResolver : IValueResolver<OrderItem, OrderItemViewModel, string>
     {
         private readonly IConfiguration _config;
 
@@ -13,7 +13,7 @@ namespace API.Helpers.Resolver
             _config = config;
         }
 
-        public string Resolve(OrderItem source, OrderItemDto destination, string destMember, ResolutionContext context)
+        public string Resolve(OrderItem source, OrderItemViewModel destination, string destMember, ResolutionContext context)
         {
             if (!string.IsNullOrEmpty(source.ItemOrdered.PictureUrl))
             {

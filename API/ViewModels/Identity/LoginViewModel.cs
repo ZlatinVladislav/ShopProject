@@ -1,6 +1,6 @@
 ﻿namespace API.Dtos.Identity
 {
-    public class LoginDto
+    public class LoginViewModel
     {
         public string Email { get; set; }
         public string Password { get; set; }

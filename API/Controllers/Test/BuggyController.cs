@@ -15,13 +15,13 @@ namespace API.Controllers.Test
 
         [HttpGet("testauth")]
         [Authorize]
-        public ActionResult<string> GetSecretText()
+        public ActionResult<string> GetSecretTextAuth()
         {
             return "secret";
         }
 
         [HttpGet("notfound")]
-        public ActionResult GetNotFoundRequest()
+        public ActionResult GetNotFoundRequestById()
         {
             var thing = _context.Products.Find(42);
 
@@ -47,7 +47,7 @@ namespace API.Controllers.Test
         }
 
         [HttpGet("badrequest/{id}")]
-        public ActionResult GetNotFoundRequest(int id)
+        public ActionResult GetNotFoundRequestValidation(int id)
         {
             return Ok();
         }

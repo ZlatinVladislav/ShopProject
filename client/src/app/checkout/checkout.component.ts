@@ -49,16 +49,11 @@ export class CheckoutComponent implements OnInit {
   }
 
   public getAddressFormValues(): void {
-    this.accountService.getUserAddress().subscribe(
-      (address) => {
-        if (address) {
-          this.checkoutForm.get('addressForm').patchValue(address);
-        }
-      },
-      (error) => {
-        console.log(error);
-      },
-    );
+    this.accountService.getUserAddress().subscribe((address) => {
+      if (address) {
+        this.checkoutForm.get('addressForm').patchValue(address);
+      }
+    });
   }
 
   public getDeliveryMethodValue(): void {

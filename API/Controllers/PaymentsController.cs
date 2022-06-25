@@ -1,5 +1,7 @@
 ﻿using API.Controllers.Base;
+using API.Dtos;
 using API.Errors;
+using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -14,20 +16,23 @@ namespace API.Controllers
     {
         private readonly IPaymentService _paymentService;
         private readonly string _whSecret;
+        private readonly IMapper _mapper;
 
         public PaymentsController(
             IPaymentService paymentService,
+            IMapper mapper,
             IConfiguration config)
         {
             _paymentService = paymentService;
             _whSecret = config.GetSection("StripeSettings:WhSecret").Value;
+            _mapper = mapper;
         }
 
         [Authorize]
         [HttpPost("{basketId}")]
-        public async Task<ActionResult<CustomerBasket>> CreateOrUpdatePaymentIntent(string basketID)
+        public async Task<ActionResult<CustomerBasketViewModel>> CreateOrUpdatePaymentIntent(string basketID)
         {
-            return await _paymentService.CreateOrUpdatePaymentIntent(basketID);
+            return _mapper.Map<CustomerBasketViewModel>(await _paymentService.CreateOrUpdatePaymentIntent(basketID));
         }
 
         [HttpPost("webhook")]

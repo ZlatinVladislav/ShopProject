@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { SharedModule } from '../shared/shared.module';
 import { CheckoutAddressComponent } from './checkout-address/checkout-address.component';
 import { CheckoutDeliveryComponent } from './checkout-delivery/checkout-delivery.component';

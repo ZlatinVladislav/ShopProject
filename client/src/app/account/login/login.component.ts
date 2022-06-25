@@ -31,13 +31,8 @@ export class LoginComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    this.accountService.login(this.loginForm.value).subscribe(
-      () => {
-        this.router.navigateByUrl(this.returnUrl);
-      },
-      (error) => {
-        console.log('Error in login =' + error.message);
-      },
-    );
+    this.accountService.login(this.loginForm.value).subscribe(() => {
+      this.router.navigateByUrl(this.returnUrl);
+    });
   }
 }

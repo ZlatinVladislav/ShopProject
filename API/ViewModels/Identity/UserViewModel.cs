@@ -1,6 +1,6 @@
 ﻿namespace API.Dtos.Identity
 {
-    public class UserDto
+    public class UserViewModel
     {
         public string Email { get; set; }
         public string DisplayName { get; set; }

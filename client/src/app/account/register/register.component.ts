@@ -32,16 +32,9 @@ export class RegisterComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    this.accountService.register(this.registerForm.value).subscribe(
-      () => {
-        this.router.navigateByUrl('/shop');
-      },
-      (error) => {
-        console.log(error);
-
-        this.errors = error.errors;
-      },
-    );
+    this.accountService.register(this.registerForm.value).subscribe(() => {
+      this.router.navigateByUrl('/shop');
+    });
   }
 
   public validateEmailNotTaken(): AsyncValidatorFn {

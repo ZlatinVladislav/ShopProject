@@ -2,7 +2,7 @@
 
 namespace API.Dtos
 {
-    public class AddressDto
+    public class AddressViewModel
     {
         [Required]
         public string FirstName { get; set; }

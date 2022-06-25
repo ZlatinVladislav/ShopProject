@@ -29,11 +29,11 @@ namespace API.Controllers.Identity
 
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<UserDto>> GetCurrentUser()
+        public async Task<ActionResult<UserViewModel>> GetCurrentUser([FromHeader] string Authorization)
         {
             var user = await _userManager.FindByEmailFromClaimsAsync(User);
 
-            return new UserDto
+            return new UserViewModel
             {
                 Email = user.Email,
                 Token = _tokenService.CreateToken(user),
@@ -49,33 +49,33 @@ namespace API.Controllers.Identity
 
         [HttpGet("address")]
         [Authorize]
-        public async Task<ActionResult<AddressDto>> GetUserAddress()
+        public async Task<ActionResult<AddressViewModel>> GetUserAddress()
         {
             var user = await _userManager.FindByClaimsPrincipalWithEmailAddressAsync(User);
 
-            return _mapper.Map<Address, AddressDto>(user.Address);
+            return _mapper.Map<Address, AddressViewModel>(user.Address);
         }
 
         [HttpPut("address")]
         [Authorize]
-        public async Task<ActionResult<AddressDto>> UpdateUserAddress(AddressDto address)
+        public async Task<ActionResult<AddressViewModel>> UpdateUserAddress(AddressViewModel address)
         {
             var user = await _userManager.FindByClaimsPrincipalWithEmailAddressAsync(User);
 
-            user.Address = _mapper.Map<AddressDto, Address>(address);
+            user.Address = _mapper.Map<AddressViewModel, Address>(address);
 
             var result = await _userManager.UpdateAsync(user);
 
             if (result.Succeeded)
             {
-                return Ok(_mapper.Map<Address, AddressDto>(user.Address));
+                return Ok(_mapper.Map<Address, AddressViewModel>(user.Address));
             }
 
             return BadRequest("Problem updating the user");
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
+        public async Task<ActionResult<UserViewModel>> Login(LoginViewModel loginDto)
         {
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
 
@@ -91,7 +91,7 @@ namespace API.Controllers.Identity
                 return Unauthorized(new ApiResponse(401));
             }
 
-            return new UserDto
+            return new UserViewModel
             {
                 Email = user.Email,
                 Token = _tokenService.CreateToken(user),
@@ -100,7 +100,7 @@ namespace API.Controllers.Identity
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
+        public async Task<ActionResult<UserViewModel>> Register(RegisterViewModel registerDto)
         {
             if (CheckEmailExistAsync(registerDto.Email).Result.Value)
             {
@@ -121,7 +121,7 @@ namespace API.Controllers.Identity
                 return BadRequest(new ApiResponse(400));
             }
 
-            return new UserDto
+            return new UserViewModel
             {
                 Email = user.Email,
                 Token = _tokenService.CreateToken(user),

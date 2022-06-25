@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace API.Dtos
 {
-    public class OrderItemDto
+    public class OrderItemViewModel
     {
         public int ProductId { get; set; }
         public string ProductName { get; set; }

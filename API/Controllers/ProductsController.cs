@@ -1,6 +1,7 @@
 ﻿using API.Controllers.Base;
 using API.Dtos;
 using API.Errors;
+using API.ViewModels;
 using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
@@ -27,14 +28,14 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts(
+        public async Task<ActionResult<Pagination<ProductDetailsViewModel>>> GetProducts(
             [FromQuery] ProductSpecParams productParams)
         {
             var products = await _productsService.GetProducts(productParams);
             var totalItems = await _productsService.GetNumerOfProducts(productParams);
-            var data = _mapper.Map<IReadOnlyList<ProductToReturnDto>>(products);
+            var data = _mapper.Map<IReadOnlyList<ProductDetailsViewModel>>(products);
 
-            return Ok(new Pagination<ProductToReturnDto>(productParams.PageIndex,
+            return Ok(new Pagination<ProductDetailsViewModel>(productParams.PageIndex,
                 productParams.PageSize, totalItems, data));
         }
 
@@ -42,29 +43,30 @@ namespace API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ProductToReturnDto>> GetProduct(int id)
+        public async Task<ActionResult<ProductDetailsViewModel>> GetProduct(int id)
         {
-            return _mapper.Map<ProductToReturnDto>(await _productsService.GetProduct(id));
+            return _mapper.Map<ProductDetailsViewModel>(await _productsService.GetProduct(id));
         }
 
         [Cached(500)]
         [HttpGet("brands")]
-        public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetBrands()
+        public async Task<ActionResult<IReadOnlyList<ProductBrandViewModel>>> GetBrands()
         {
-            return Ok(await _productsService.GetBrands());
+            var ss = await _productsService.GetBrands();
+            return Ok(_mapper.Map<IReadOnlyList<ProductBrandViewModel>>(ss));
         }
 
         [Cached(500)]
         [HttpGet("types")]
-        public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetTypes()
+        public async Task<ActionResult<IReadOnlyList<ProductTypeViewModel>>> GetTypes()
         {
-            return Ok(await _productsService.GetTypes());
+            return Ok(_mapper.Map<IReadOnlyList<ProductTypeViewModel>>(await _productsService.GetTypes()));
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<ProductToReturnDto>> CreateProduct([FromForm] ProductDto productDto)
+        public async Task<ActionResult<ProductDetailsViewModel>> CreateProduct([FromForm] ProductViewModel productDto)
         {
-            var product = _mapper.Map<ProductDto, Product>(productDto);
+            var product = _mapper.Map<ProductViewModel, Product>(productDto);
 
             return Ok(await _productsService.CreateProduct(product, productDto.PictureForm));
         }

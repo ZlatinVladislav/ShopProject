@@ -2,7 +2,7 @@
 
 namespace API.Dtos
 {
-    public class ProductDto
+    public class ProductViewModel
     {
         public string Name { get; set; }
         public string Description { get; set; }

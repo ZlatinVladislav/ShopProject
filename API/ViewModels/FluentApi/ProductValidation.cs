@@ -2,9 +2,9 @@
 
 namespace API.Dtos.FluentApi
 {
-    public class ProductValidation : IEntityTypeConfiguration<ProductDto>
+    public class ProductValidation : IEntityTypeConfiguration<ProductViewModel>
     {
-        public void Configure(EntityTypeBuilder<ProductDto> builder)
+        public void Configure(EntityTypeBuilder<ProductViewModel> builder)
         {
             builder.Property(o => o.Name).IsRequired();
             builder.Property(o => o.Description).IsRequired();
